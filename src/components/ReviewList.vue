@@ -13,6 +13,7 @@ defineProps({
     <ul>
       <li v-for="(review, index) in reviews" :key="index">
         <span>{{ review.name }} gave this {{ review.rating }} stars</span>
+        <span>{{review.recommended? " and recommended this product":""}}</span>
         <br/>
         <span>"{{ review.content }}"</span>
       </li>

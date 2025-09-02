@@ -6,11 +6,12 @@ const emit = defineEmits(['review-submitted'])
 const review = reactive({
   name: '',
   content: '',
-  rating: null
+  rating: null,
+  recommended:false
 })
 
 const onSubmit = () => {
-  if (review.name === '' || review.content === '' || review.rating === null) {
+  if (review.name === '' || review.content === '' || review.rating === null || review.recommended === null) {
     alert('Review is incomplete. Please fill out every field.')
     return
   }
@@ -18,13 +19,15 @@ const onSubmit = () => {
   const productReview = {
     name: review.name,
     content: review.content,
-    rating: review.rating
+    rating: review.rating,
+    recommended: review.recommended
   }
   emit('review-submitted', productReview)
 
   review.name = ''
   review.content = ''
   review.rating = null
+  review.recommended = false
 }
 </script>
 
@@ -46,6 +49,9 @@ const onSubmit = () => {
       <option>1</option>
     </select>
 
+    <label for="recommended">Would you recommend this product?</label>
+    <input type="checkbox" id="recommended" value="true" v-model="review.recommended"/>
+    
     <input class="button" type="submit" value="Submit">
   </form>
 </template>
