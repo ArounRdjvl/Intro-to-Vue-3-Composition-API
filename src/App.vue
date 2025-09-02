@@ -12,6 +12,8 @@ const variants = ref([
   { id: 2234, color: 'green' },
   { id: 2235, color: 'blue' },
 ])
+
+const sizes = ref(['38','39','40','41'])
 </script>
   
 <template>
@@ -27,6 +29,9 @@ const variants = ref([
         <p v-else>Out of Stock</p>
         <ul>
           <li v-for="detail in details">{{ detail }}</li>
+        </ul>
+        <ul>
+          <li v-for="size in sizes">{{ size }}</li>
         </ul>
         <div v-for="variant in variants" :key="variant.id">{{ variant.color }}</div>
       </div>
