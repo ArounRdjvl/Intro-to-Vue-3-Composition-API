@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import socksGreenImage from '@/assets/images/socks_green.jpeg'
 import socksBlueImage from '@/assets/images/socks_blue.jpeg'
+import ProductDetails from '@/components/ProductDetails.vue'
 
 const props = defineProps({
   premium: {
@@ -60,6 +61,7 @@ const updateVariant = (index) => {
         <h1>{{ title }}</h1>
         <p v-if="inStock">In Stock</p>
         <p v-else>Out of Stock</p>
+        <ProductDetails :details="'I\'m details'"></ProductDetails>
         <p>Shipping: {{ shipping }}</p>
         <ul>
           <li v-for="detail in details">{{ detail }}</li>
