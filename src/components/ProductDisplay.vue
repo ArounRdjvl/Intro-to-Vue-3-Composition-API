@@ -10,7 +10,7 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['add-to-cart'])
+const emit = defineEmits(['add-to-cart', 'remove-from-cart'])
 
 const product = ref('Socks')
 const brand = ref('Vue Mastery')
@@ -21,7 +21,7 @@ const details = ref(['50% cotton', '30% wool', '20% polyester'])
 
 const variants = ref([
   { id: 2234, color: 'green', image: socksGreenImage, quantity: 50 },
-  { id: 2235, color: 'blue', image: socksBlueImage, quantity: 0 },
+  { id: 2235, color: 'blue', image: socksBlueImage, quantity: 50 },
 ])
 
 const title = computed(() => {
@@ -47,6 +47,10 @@ const shipping = computed(() => {
 
 const addToCart = () => {
   emit('add-to-cart', variants.value[selectedVariant.value].id)
+}
+
+const removeFromCart = () => {
+  emit('remove-from-cart', variants.value[selectedVariant.value].id)
 }
 
 const updateVariant = (index) => {
@@ -83,6 +87,12 @@ const updateVariant = (index) => {
           v-on:click="addToCart"
         >
           Add to cart
+        </button>
+        <button
+          class="button" 
+          v-on:click="removeFromCart"
+        >
+          Remove item
         </button>
       </div>
     </div>
