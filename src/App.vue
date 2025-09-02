@@ -11,14 +11,14 @@ const selectedVariant = ref(0)
 const details = ref(['50% cotton', '30% wool', '20% polyester'])
 
 const variants = ref([
-  { id: 2234, color: 'green', image: socksGreenImage, quantity: 50 },
-  { id: 2235, color: 'blue', image: socksBlueImage, quantity: 0 },
+  { id: 2234, color: 'green', image: socksGreenImage, quantity: 50, onSale:true },
+  { id: 2235, color: 'blue', image: socksBlueImage, quantity: 0, onSale:false },
 ])
 
 const cart = ref(0)
 
 const title = computed(() => {
-  return brand.value + ' ' + product.value
+  return brand.value + ' ' + product.value + [variants.value[selectedVariant.value].onSale? ' is on Sale': '']
 })
 
 const image = computed(() => {
