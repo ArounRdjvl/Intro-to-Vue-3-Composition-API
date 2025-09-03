@@ -1,16 +1,23 @@
-<script setup>
+<script setup lang="ts">
 import { ref, computed } from 'vue'
-import ReviewForm from '@/components/ReviewForm.vue'
-import ReviewList from '@/components/ReviewList.vue'
+import ReviewForm from './ReviewForm.vue'
+import ReviewList from './ReviewList.vue'
+
 import socksGreenImage from '@/assets/images/socks_green.jpeg'
 import socksBlueImage from '@/assets/images/socks_blue.jpeg'
 
-const props = defineProps({
-  premium: {
-    type: Boolean,
-    required: true
-  }
-})
+interface Props {
+  premium: boolean
+}
+
+interface Review {
+  name: string
+  content: string
+  rating: number
+  recommended: boolean
+}
+
+const props = defineProps<Props>()
 
 const emit = defineEmits(['add-to-cart'])
 
@@ -18,7 +25,7 @@ const product = ref('Socks')
 const brand = ref('Vue Mastery')
 
 const selectedVariant = ref(0)
-  
+
 const details = ref(['50% cotton', '30% wool', '20% polyester'])
 
 const variants = ref([
@@ -26,7 +33,7 @@ const variants = ref([
   { id: 2235, color: 'blue', image: socksBlueImage, quantity: 0 },
 ])
 
-const reviews = ref([])
+const reviews = ref(new Array<Review>())
 
 const title = computed(() => {
   return brand.value + ' ' + product.value
@@ -43,8 +50,7 @@ const inStock = computed(() => {
 const shipping = computed(() => {
   if (props.premium) {
     return 'Free'
-  }
-  else {
+  } else {
     return 2.99
   }
 })
@@ -53,20 +59,20 @@ const addToCart = () => {
   emit('add-to-cart', variants.value[selectedVariant.value].id)
 }
 
-const updateVariant = (index) => {
+const updateVariant = (index: number) => {
   selectedVariant.value = index
 }
 
-const addReview = (review) => {
-  reviews.value.push(review)
+const addReview = (r: Review) => {
+  reviews.value.push(r)
 }
 </script>
 
 <template>
   <div class="product-display">
     <div class="product-container">
-      <div class="product-image">    
-        <img v-bind:src="image">
+      <div class="product-image">
+        <img v-bind:src="image" />
       </div>
       <div class="product-info">
         <h1>{{ title }}</h1>
@@ -74,18 +80,17 @@ const addReview = (review) => {
         <p v-else>Out of Stock</p>
         <p>Shipping: {{ shipping }}</p>
         <ul>
-          <li v-for="detail in details">{{ detail }}</li>
+          <li v-for="(detail, index) in details" :key="index">{{ detail }}</li>
         </ul>
-        <div 
-          v-for="(variant, index) in variants" 
+        <div
+          v-for="(variant, index) in variants"
           :key="variant.id"
           @mouseover="updateVariant(index)"
           class="color-circle"
           :style="{ backgroundColor: variant.color }"
-        >
-        </div>
+        ></div>
         <button
-          class="button" 
+          class="button"
           :class="{ disabledButton: !inStock }"
           :disabled="!inStock"
           v-on:click="addToCart"
